@@ -1,0 +1,10 @@
+(executable
+ (name websocket)
+ (modules websocket rendering database common)
+ (libraries dream caqti-driver-sqlite3)
+ (preprocess (pps lwt_ppx)))
+
+(rule
+ (targets rendering.ml)
+ (deps rendering.eml.html)
+ (action (run dream_eml %{deps} --workspace %{workspace_root})))

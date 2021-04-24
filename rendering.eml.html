@@ -1,0 +1,60 @@
+let index request comments =
+  <html>
+    <body>
+      <h1>Hello <%s Common.getUserName request %>!</h1>
+
+      <input type="text" id="myInput">
+
+      <button id="btn">Envoyer</button>
+
+      <ol id="list">
+%       comments |> List.iter (fun (_id, comment) ->
+        <li><%s comment %></li>
+%       );
+      </ol>
+
+      <button id="btn2">Close</button>
+
+      <script>
+        console.log("Hello")
+        var socket = new WebSocket("wss://localhost:8080/websocket");
+
+        socket.onmessage = function (e) {
+            var li = document.createElement("LI");
+            var t = document.createTextNode(e.data);
+            li.appendChild(t);
+            document.getElementById("list").appendChild(li);
+        };
+
+        document.getElementById("btn").onclick = function (){
+            var x = document.getElementById("myInput").value;
+            console.log(x);
+            socket.send(x);
+        };
+
+        document.getElementById("btn2").onclick = function (){
+            socket.close();
+        };
+
+      </script>
+    </body>
+  </html>
+
+let login request =
+  <html>
+    <body>
+      <h1>Login</h1>
+
+      <%s! Dream.form_tag ~action:"/" request %>
+      <input name="username" autofocus>
+      <input type="submit" value="Login">
+      </form>
+
+      <h1>Create Account</h1>
+      <%s! Dream.form_tag ~action:"/" request %>
+      <input name="username">
+      <input name="username">
+      <input type="submit" value="Create">
+      </form>
+    </body>
+  </html>
