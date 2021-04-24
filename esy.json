@@ -1,0 +1,20 @@
+{
+  "name": "fullstack-melange",
+  "dependencies": {
+    "@opam/dream": "aantron/dream:dream.opam",
+    "@opam/dune": "^2.0",
+    "esbuild": "^0.11.14",
+    "melange": "melange-re/melange",
+    "ocaml": "4.12.x"
+  },
+  "esy": { "buildsInSource": "unsafe" },
+  "scripts": {
+    "client_build": "bsb -make-world -- --root .",
+    "pack":
+      "esbuild _build/default/client/client.js --bundle --outfile=static/client.js",
+    "start":
+      "sh -c 'esy client_build && esy pack && dune exec --root . server/server.exe'",
+    "watch":
+      "sh -c 'killall server.exe || true; esy start && while true; do inotifywait server client common -e modify -qq; killall server.exe || true; esy start & done'"
+  }
+}

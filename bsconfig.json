@@ -1,0 +1,8 @@
+{
+  "name": "fullstack-melange",
+  "bs-dependencies": [
+  ],
+  "sources": [
+    "client"
+  ]
+}

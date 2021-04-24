@@ -1,2 +1,9 @@
 _build
 db.sqlite
+_esy
+esy.lock
+node_modules
+.melange.eobjs
+.merlin
+dune.bsb
+dune
