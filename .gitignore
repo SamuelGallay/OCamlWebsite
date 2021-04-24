@@ -8,3 +8,5 @@ node_modules
 dune.bsb
 dune
 static
+package-lock.json
+yarn.lock

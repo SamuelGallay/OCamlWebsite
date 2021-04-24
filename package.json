@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "bs-webapi": "^0.19.1"
+  }
+}
