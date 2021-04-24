@@ -50,5 +50,6 @@ let () =
         Dream.respond @@ Rendering.index r comments);
     Dream.post "/" (fun _r -> Dream.empty ~headers:["Location", "/"] `See_Other);
     Dream.get "/websocket" websocket_handler;
+    Dream.get "/static/**" (Dream.static ".");
   ]
   @@ Dream.not_found;;
