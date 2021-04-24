@@ -18,7 +18,7 @@ let rec listen_to nw req =
 
 let websocket_handler req =
   Dream.websocket (fun websocket ->
-      let s = Dream.random 100 in
+      let s = Dream.random 200 in
       Hashtbl.add myWebSockets s websocket;
       listen_to s req)
 
@@ -50,6 +50,6 @@ let () =
         Dream.respond @@ Rendering.index r comments);
     Dream.post "/" (fun _r -> Dream.empty ~headers:["Location", "/"] `See_Other);
     Dream.get "/websocket" websocket_handler;
-    Dream.get "/static/**" (Dream.static ".");
+    Dream.get "/static/**" (Dream.static "static/");
   ]
   @@ Dream.not_found;;

@@ -1,6 +1,6 @@
 CREATE TABLE comment (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  text NOT NULL
+  text TEXT NOT NULL
 );
 
 CREATE TABLE dream_session (
@@ -11,6 +11,6 @@ CREATE TABLE dream_session (
 );
 
 CREATE TABLE users (
-	pseudo	TEXT PRIMARY KEY,
-	password	TEXT NOT NULL
+  pseudo TEXT PRIMARY KEY,
+  password TEXT NOT NULL
 );
