@@ -44,18 +44,18 @@ let index request comments =
 let login request =
   <html>
     <body>
-      <h1>Login</h1>
-
+      <h1>Log in</h1>
       <%s! Dream.form_tag ~action:"/" request %>
-      <input name="username" autofocus>
-      <input type="submit" value="Login">
+      <input name="1_login-pseudo" autofocus>
+      <input name="2_login-password">
+      <input type="submit" value="Log in">
       </form>
 
-      <h1>Create Account</h1>
+      <h1>Sign up</h1>
       <%s! Dream.form_tag ~action:"/" request %>
-      <input name="username">
-      <input name="username">
-      <input type="submit" value="Create">
+      <input name="1_signup-pseudo">
+      <input name="2_signup-password">
+      <input type="submit" value="Sign up">
       </form>
     </body>
   </html>

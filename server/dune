@@ -1,6 +1,6 @@
 (executable
  (name server)
- (modules server rendering database common)
+ (modules server connection websocket rendering database common)
  (libraries dream caqti-driver-sqlite3)
  (preprocess (pps lwt_ppx)))
 
