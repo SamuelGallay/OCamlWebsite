@@ -5,5 +5,9 @@
   ],
   "sources": [
     "client"
-  ]
+  ],
+  "warnings": {
+    "number": "+A-42-48-44",
+    "error": "+A-3-102-103"
+  }
 }

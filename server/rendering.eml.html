@@ -1,7 +1,12 @@
 let index request comments =
   <html>
+    <head>
+      <meta charset="UTF-8">
+    </head>
     <body>
       <h1>Hello <%s Common.getUserName request %>!</h1>
+
+      <p>Test encodage : 片仮名</p>
 
       <input type="text" id="myInput">
 
@@ -13,7 +18,11 @@ let index request comments =
 %       );
       </ol>
 
-      <button id="btn2">Close</button>
+      <button id="btn2">Close Websocket Connection</button>
+
+      <%s! Dream.form_tag ~action:"/" request %>
+        <input type="submit" name="disconnect" value="Disconnect">
+      </form>
 
       <script>
         console.log("Hello")
@@ -36,6 +45,9 @@ let index request comments =
             socket.close();
         };
 
+          document.getElementById("btn2").onclick = function (){
+            socket.close();
+        };
       </script>
       <script src="static/client.js"></script>
     </body>
@@ -43,6 +55,9 @@ let index request comments =
 
 let login request =
   <html>
+    <head>
+      <meta charset="UTF-8">
+    </head>
     <body>
       <h1>Log in</h1>
       <%s! Dream.form_tag ~action:"/" request %>

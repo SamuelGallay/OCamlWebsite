@@ -14,7 +14,7 @@ It uses [Dream](https://aantron.github.io/dream/) for the backend and [Melange](
 
 ## Building Steps
 
-* First run `npm init && npm install` it is required for now to grab some dependencies Melange can't find when installed with `esy`.
+* First run `npm install` it is required for now to grab some dependencies Melange can't find when installed with `esy`. For some reason, sometimes `npm install` doesn't work. Use `yarn` instead : `npm install -g yarn` to install it and then just run `yarn`.
 
 * Then run `esy`. If it's the first time you use it, it will take some time to compile Melange, Dream and the OCaml compiler.
 

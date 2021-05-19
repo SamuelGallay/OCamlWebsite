@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bs-platform": "^9.0.2",
     "bs-webapi": "^0.19.1"
   }
 }
