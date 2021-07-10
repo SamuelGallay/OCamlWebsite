@@ -3,7 +3,7 @@ let myWebSockets = Hashtbl.create 10
 let send_message m =
   Hashtbl.to_seq_values myWebSockets
   |> List.of_seq
-  |> List.map (Dream.send m)
+  |> List.map (fun w -> Dream.send w m)
   |> Lwt.join
 
 let rec listen_to nw req =

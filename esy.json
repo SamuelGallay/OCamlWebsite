@@ -5,7 +5,10 @@
     "@opam/dune": "^2.0",
     "esbuild": "^0.11.14",
     "melange": "melange-re/melange",
-    "ocaml": "4.12.x"
+    "ocaml": "4.12.x",
+    "@opam/caqti": "*",
+    "@opam/caqti-lwt": "*",
+    "@opam/caqti-driver-sqlite3": "*"
   },
   "esy": { "buildsInSource": "unsafe" },
   "scripts": {
