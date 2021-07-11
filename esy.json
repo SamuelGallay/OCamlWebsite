@@ -1,25 +1,30 @@
 {
-  "name": "fullstack-melange",
-  "dependencies": {
-    "@opam/dream": "aantron/dream:dream.opam",
-    "@opam/dune": "^2.0",
-    "esbuild": "^0.11.14",
-    "melange": "melange-re/melange",
-    "ocaml": "4.12.x",
-    "@opam/caqti": "*",
-    "@opam/caqti-lwt": "*",
-    "@opam/caqti-driver-sqlite3": "*"
-  },
-  "esy": { "buildsInSource": "unsafe" },
-  "scripts": {
-    "client_build": "sh -c 'bsb -make-world -- --root . && mv .merlin client/.merlin'",
-    "pack":
-      "esbuild _build/default/client/client.js --bundle --outfile=static/client.js",
-    "start":
-      "sh -c 'esy client_build && esy pack && dune exec --root . server/server.exe'",
-    "watch":
-      "sh -c 'killall server.exe || true; esy start & while true; do inotifywait server client -e modify -qq; killall server.exe || true; esy start & done'",
-    "generate_database":
-      "sh -c 'cat default_database.sql | sqlite3 db.sqlite'"
-  }
+    "name": "fullstack-melange",
+    "dependencies": {
+	"@opam/dream": "aantron/dream:dream.opam",
+	"@opam/dune": "^2.0",
+	"esbuild": "^0.11.14",
+	"melange": "melange-re/melange",
+	"ocaml": "4.12.x",
+	"@opam/caqti": "*",
+	"@opam/caqti-lwt": "*",
+	"@opam/caqti-driver-sqlite3": "*",
+	"@opam/ppx_rapper": "*",
+	"@opam/ppx_rapper_lwt": "*"
+    },
+    "devDependencies": {
+	"@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam"
+    },
+    "esy": { "buildsInSource": "unsafe" },
+    "scripts": {
+	"client_build": "sh -c 'bsb -make-world -- --root . && mv .merlin client/.merlin'",
+	"pack":
+	"esbuild _build/default/client/client.js --bundle --outfile=static/client.js",
+	"start":
+	"sh -c 'esy client_build && esy pack && dune exec --root . server/server.exe'",
+	"watch":
+	"sh -c 'killall server.exe || true; esy start & while true; do inotifywait server client -e modify -qq; killall server.exe || true; esy start & done'",
+	"generate_database":
+	"sh -c 'cat default_database.sql | sqlite3 db.sqlite'"
+    }
 }

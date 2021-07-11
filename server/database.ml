@@ -1,62 +1,42 @@
-module type DB = Caqti_lwt.CONNECTION
+let query_packing a req =
+  let f m =
+    match%lwt a m with
+    | Ok a -> Lwt.return a
+    | Error _e ->
+        failwith "Database, SQL or I don't know what error... I am sorry"
+  in
+  Dream.sql req f
 
-module R = Caqti_request
-module T = Caqti_type
+let ( |>= ) g f x = Lwt.map f (g x)
 
-let list_comments request =
-  let query =
-    R.collect T.unit T.(tup2 int string) "SELECT id, text FROM comment"
-  in
-  let list (module Db : DB) =
-    let%lwt comments_or_error = Db.collect_list query () in
-    Caqti_lwt.or_fail comments_or_error
-  in
-  Dream.sql request list
+let list_comments =
+  [%rapper get_many {sql| SELECT @int{id}, @string{text} FROM comment |sql}] ()
+  |> query_packing
 
-let add_comment text request =
-  let query = R.exec T.string "INSERT INTO comment (text) VALUES ($1)" in
-  let add (module Db : DB) =
-    let%lwt unit_or_error = Db.exec query text in
-    Caqti_lwt.or_fail unit_or_error
-  in
-  Dream.sql request add
+let add_comment text =
+  [%rapper
+    execute {sql| INSERT INTO comment (text) VALUES (%string{text}) |sql}]
+    ~text
+  |> query_packing
 
-let add_user pseudo password request =
-  let query =
-    R.exec
-      T.(tup2 string string)
-      "INSERT INTO users (pseudo, password) VALUES ($1, $2)"
-  in
-  let add (module Db : DB) =
-    let%lwt unit_or_error = Db.exec query (pseudo, password) in
-    Caqti_lwt.or_fail unit_or_error
-  in
-  Dream.sql request add
+let add_user pseudo password =
+  [%rapper
+    execute
+      {sql| INSERT INTO users VALUES (%string{pseudo}, %string{password}) |sql}]
+    ~pseudo ~password
+  |> query_packing
 
-let check_pseudo pseudo request =
-  let query =
-    R.collect T.string T.string "SELECT pseudo FROM users WHERE pseudo = ($1)"
-  in
-  let list_user (module Db : DB) =
-    let%lwt up_or_error = Db.collect_list query pseudo in
-    Caqti_lwt.or_fail up_or_error
-  in
-  match%lwt Dream.sql request list_user with
-  | [] -> Lwt.return false
-  | _ :: _ -> Lwt.return true
+let check_pseudo pseudo =
+  [%rapper
+    get_opt
+      {sql| SELECT @string{pseudo} FROM users WHERE pseudo = %string{pseudo} |sql}]
+    ~pseudo
+  |> query_packing |>= Option.is_some
 
-let check_user_password pseudo password request =
-  let query =
-    R.collect
-      T.(tup2 string string)
-      T.(tup2 string string)
-      "SELECT pseudo, password FROM users WHERE pseudo = ($1) AND password = \
-       ($2)"
-  in
-  let list_user_password (module Db : DB) =
-    let%lwt up_or_error = Db.collect_list query (pseudo, password) in
-    Caqti_lwt.or_fail up_or_error
-  in
-  match%lwt Dream.sql request list_user_password with
-  | [] -> Lwt.return false
-  | _ :: _ -> Lwt.return true
+let check_user_password pseudo password =
+  [%rapper
+    get_opt
+      {sql| SELECT @string{pseudo}, @string{password} FROM users WHERE pseudo = %string{pseudo} AND password = %string{password} |sql}]
+    ~pseudo ~password
+  |> query_packing |>= Option.is_some
+
